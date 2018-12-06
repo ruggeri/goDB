@@ -8,6 +8,9 @@ type bstNode struct {
 	right *bstNode
 }
 
+// NED: Could you break BST and bstNode (and their methods) into their
+// own files? Then your main.go could just have the main method.
+
 // BST binary search tree structure
 type BST struct {
 	root *bstNode
@@ -25,6 +28,8 @@ func main() {
 	myTree.find(14)
 }
 
+// NED: API may be more intuitive if they can add a value, rather than a
+// node.
 func (tree *BST) add(node *bstNode) {
 	if tree.root == nil {
 		tree.root = node
@@ -34,6 +39,9 @@ func (tree *BST) add(node *bstNode) {
 	}
 }
 
+// NED: Same comment; maybe it's easier if they pass you a value.
+// NED: Could this be a method on bstNode, rather than BST? You don't
+// use the tree for anything here.
 func (tree *BST) insertNode(node, nodeToAdd *bstNode) {
 	if node.value == nodeToAdd.value {
 		return
@@ -73,6 +81,7 @@ func (tree *BST) find(val int) *bstNode {
 	return tree.findNode(val, tree.root)
 }
 
+// NED: Again, maybe more natural as a method of bstNode.
 func (tree *BST) findNode(val int, node *bstNode) *bstNode {
 	if node == nil {
 		return nil
@@ -96,6 +105,7 @@ func (tree *BST) remove(val int) {
 	}
 }
 
+// NED: I feel like this method is more naturally "removeValue".
 func (tree *BST) removeNode(node *bstNode, val int) *bstNode {
 	if val < node.value {
 		node.left = tree.removeNode(node.left, val)
@@ -104,6 +114,7 @@ func (tree *BST) removeNode(node *bstNode, val int) *bstNode {
 		node.right = tree.removeNode(node.right, val)
 		return node
 	} else {
+		// NED: Maybe this stuff could be its own method: "deleteNode"?
 		// ! found !
 		fmt.Printf("Removed %v from tree \n", node.value)
 		// no children
